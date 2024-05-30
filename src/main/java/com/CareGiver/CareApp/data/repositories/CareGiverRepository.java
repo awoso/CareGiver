@@ -4,4 +4,5 @@ import com.CareGiver.CareApp.data.models.CareGiver;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CareGiverRepository extends JpaRepository<CareGiver,Long> {
+    CareGiver findByEmail(String email);
 }

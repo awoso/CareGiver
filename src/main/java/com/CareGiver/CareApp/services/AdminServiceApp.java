@@ -2,11 +2,9 @@ package com.CareGiver.CareApp.services;
 
 import com.CareGiver.CareApp.data.models.Admin;
 import com.CareGiver.CareApp.data.repositories.AdminRepository;
-import com.CareGiver.CareApp.dtos.requests.AdminLoginRequest;
-import com.CareGiver.CareApp.dtos.requests.AdminRegistrationRequest;
-import com.CareGiver.CareApp.dtos.requests.AdminUpdateProfileRequest;
-import com.CareGiver.CareApp.dtos.requests.DeleteAdminRequest;
+import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.AdminLoginResponse;
+import com.CareGiver.CareApp.dtos.responses.AdminLogoutResponse;
 import com.CareGiver.CareApp.dtos.responses.AdminRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.AdminUpdateProfileResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,7 +24,6 @@ public class AdminServiceApp implements AdminService {
     public AdminRegistrationResponse registerAdmin(AdminRegistrationRequest request) throws CareAppException {
 
         boolean isRegistered = adminRepository.findByEmail(request.getEmail())!=null;
-        System.out.println(isRegistered);
         if (isRegistered) throw new CareAppException("Admin details already taken");
 
        Admin admin = new Admin();
@@ -85,4 +83,17 @@ public class AdminServiceApp implements AdminService {
     public List<Admin> findAllAdmins(List<Admin> all) {
         return adminRepository.findAll();
     }
+
+    @Override
+    public void logout(AdminLogOutRequest request) throws CareAppException {
+
+    }
 }
+
+//    @Override
+//    public void logout(AdminLogOutRequest request) throws CareAppException {
+//        Optional<Admin> existingAdmin = adminRepository.findById(request.getAdminId());
+//        if (existingAdmin.isEmpty()) throw new CareAppException("Admin not found");
+//        existingAdmin.setLogin(false);
+//        adminRepository.save(existingAdmin);
+//    }

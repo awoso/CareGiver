@@ -3,6 +3,9 @@ package com.CareGiver.CareApp.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -13,8 +16,11 @@ public class Booking {
     private Long id;
     private Long careGiverId;
     private Long userId;
-    private Long serviceOfferedId;
     private String starTime;
     private String endTime;
-    private BookingStatus status;
+    private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status= BookingStatus.PENDING;
+
+
 }
