@@ -1,10 +1,7 @@
 package com.CareGiver.CareApp.services;
 
 import com.CareGiver.CareApp.dtos.requests.*;
-import com.CareGiver.CareApp.dtos.responses.UserBookingResponse;
-import com.CareGiver.CareApp.dtos.responses.UserLoginResponse;
-import com.CareGiver.CareApp.dtos.responses.UserRegistrationResponse;
-import com.CareGiver.CareApp.dtos.responses.UserUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.*;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 
 public interface UserService {
@@ -14,7 +11,7 @@ public interface UserService {
 
     UserLoginResponse login(UserLoginRequest request) throws CareAppException;
 
-    void logout(UserLogoutRequest request) throws CareAppException;
+    UserLogoutResponse logout(UserLogoutRequest request) throws CareAppException;
 
     UserBookingResponse bookCareGiver(UserBookingRequest request) throws CareAppException;
 }

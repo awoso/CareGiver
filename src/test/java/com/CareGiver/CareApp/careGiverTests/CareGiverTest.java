@@ -101,6 +101,8 @@ public class CareGiverTest {
         careGiverService.logoutCareGiver(request);
         assertFalse(careGiver.isLogin());
     }
+
+
     @Test
     public void testThatCareGiverCanLogOut_chain() throws CareAppException {
         CareGiverRegistrationRequest request = new CareGiverRegistrationRequest();
@@ -124,7 +126,6 @@ public class CareGiverTest {
         logoutRequest.setEmail("awosoogaga@gmail.com1");
         CareGiverResponse response1 = careGiverService.logout(logoutRequest);
         assertThat(response1).isNotNull();
-
 
     }
 

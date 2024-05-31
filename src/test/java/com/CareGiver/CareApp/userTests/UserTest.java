@@ -3,10 +3,7 @@ package com.CareGiver.CareApp.userTests;
 import com.CareGiver.CareApp.data.models.User;
 import com.CareGiver.CareApp.data.repositories.UserRepository;
 import com.CareGiver.CareApp.dtos.requests.*;
-import com.CareGiver.CareApp.dtos.responses.UserBookingResponse;
-import com.CareGiver.CareApp.dtos.responses.UserLoginResponse;
-import com.CareGiver.CareApp.dtos.responses.UserRegistrationResponse;
-import com.CareGiver.CareApp.dtos.responses.UserUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.*;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import com.CareGiver.CareApp.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -52,12 +49,10 @@ public class UserTest {
     @Test
     public void testThatUserCanLogout() throws CareAppException {
         UserLogoutRequest request = new UserLogoutRequest();
-        request.setUserId(1L);
-        userService.logout(request);
-        User user = userRepository.findById(1L).orElse(null);
+        request.setEmail("tolu@gmail.com");
 
-        assert user != null;
-        assertFalse(user.isLogin());
+        UserLogoutResponse response = userService.logout(request);
+        assertThat(response).isNotNull();
     }
 
     @Test

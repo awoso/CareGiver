@@ -16,34 +16,23 @@ import org.springframework.web.bind.annotation.*;
 public class CareGiverController {
     private CareGiverService careGiverService;
 
-@PostMapping("register")
+    @PostMapping("register")
     public ResponseEntity<CareGiverRegistrationResponse> register(@RequestBody CareGiverRegistrationRequest request) throws CareAppException {
+
         return new ResponseEntity<>(careGiverService.registerCareGiver(request), HttpStatus.CREATED);
 
     }
 
-@GetMapping("login")
+    @PostMapping("login")
     public ResponseEntity<CareGiverResponse> login(@RequestBody CareGiverLoginRequest request) throws CareAppException {
-    return new ResponseEntity<>(careGiverService.login(request), HttpStatus.OK);
 
-}
+        return new ResponseEntity<>(careGiverService.login(request), HttpStatus.OK);
 
-//@PostMapping("logout")
-//    public ResponseEntity<CareGiverResponse> logout1(@RequestBody CareGiverLogoutRequest request) throws CareAppException {
-//
-//}
-@PostMapping("logout")
-public void logout(@RequestBody CareGiverLogoutRequest request){
-    CareGiverResponse response = new CareGiverResponse();
-    try {
-         careGiverService.logout(request);
-         response.setMessage("Logged out successfully");
-        System.out.println(response.getMessage());
-
-    } catch (CareAppException e) {
-        e.getMessage();
     }
-}
 
+    @PostMapping("logout")
+    public ResponseEntity<CareGiverResponse> logout(@RequestBody CareGiverLogoutRequest request) throws CareAppException {
 
+        return new ResponseEntity<>(careGiverService.logout(request), HttpStatus.CREATED);
+    }
 }

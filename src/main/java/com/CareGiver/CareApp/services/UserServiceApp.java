@@ -68,21 +68,25 @@ public class UserServiceApp implements UserService{
     @Override
     public UserLoginResponse login(UserLoginRequest request) throws CareAppException {
         User existinguser = userRepository.findByEmail(request.getEmail());
-        if (existinguser == null) throw new CareAppException("Admin not found");
+        if (existinguser == null) throw new CareAppException("User not found");
         if (!existinguser.getPassword().equals(request.getPassword())) throw new CareAppException("Invalid password");
         existinguser.setLogin(true);
         userRepository.save(existinguser);
         UserLoginResponse response = new UserLoginResponse();
-        response.setMessage("Admin successfully logged in");
+        response.setMessage("User successfully logged in");
         return response;
     }
 
     @Override
-    public void logout(UserLogoutRequest request) throws CareAppException {
-        User existingUser = userRepository.findById(request.getUserId()).orElse(null);
+    public UserLogoutResponse logout(UserLogoutRequest request) throws CareAppException {
+        User existingUser = userRepository.findByEmail(request.getEmail());
         if (existingUser == null) throw new CareAppException("User not found");
         existingUser.setLogin(false);
         userRepository.save(existingUser);
+        UserLogoutResponse response = new UserLogoutResponse();
+        response.setMessage("User successfully logged out");
+        System.out.println(existingUser.getEmail());
+        return response;
     }
 
     @Override
