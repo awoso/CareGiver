@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,12 @@ public class User {
     private String password;
     private String phoneNumber;
     private String address;
+    private boolean isLogin;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Booking> bookings;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Payment> payments;
 
 }

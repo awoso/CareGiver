@@ -1,10 +1,8 @@
 package com.CareGiver.CareApp.adminTests;
 
+import com.CareGiver.CareApp.data.models.User;
 import com.CareGiver.CareApp.data.repositories.AdminRepository;
-import com.CareGiver.CareApp.dtos.requests.AdminLoginRequest;
-import com.CareGiver.CareApp.dtos.requests.AdminRegistrationRequest;
-import com.CareGiver.CareApp.dtos.requests.AdminUpdateProfileRequest;
-import com.CareGiver.CareApp.dtos.requests.DeleteAdminRequest;
+import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.AdminLoginResponse;
 import com.CareGiver.CareApp.dtos.responses.AdminRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.AdminUpdateProfileResponse;
@@ -31,10 +29,11 @@ public class AdminTest {
         request.setEmail("awosoOgaga@gmail.com");
         request.setPassword("awoso1234");
         request.setUserName("Awoso");
-
+        adminService.registerAdmin(request);
         AdminRegistrationResponse response = adminService.registerAdmin(request);
 
         assertThat(response).isNotNull();
+//        assertEquals(1,adminRepository.count());
 
     }
 
@@ -72,6 +71,26 @@ public class AdminTest {
 
 
     }
+    @Test
+    public void testThatAdminCanLogout() throws CareAppException{
+        AdminLogOutRequest request = new AdminLogOutRequest();
+        request.setAdminId(1L);
+        adminService.logout(request);
+
+
+    }
+
+//    UserLogoutRequest request = new UserLogoutRequest();
+//        request.setUserId(1L);
+//        userService.logout(request);
+//    User user = userRepository.findById(1L).orElse(null);
+//
+//        assert user != null;
+//    assertFalse(user.isLogin());
+//
+
+
+
 
     @Test
     public void testThatAdminCanUpdateProfile() throws CareAppException {
