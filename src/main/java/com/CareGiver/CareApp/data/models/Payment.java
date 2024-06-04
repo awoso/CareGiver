@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -17,9 +18,5 @@ public class Payment {
     private Long bookingId;
     private Long userId;
     private BigDecimal amount;
-    private PaymentStatus paymentStatus;
-    private PaymentType paymentType;
-//    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    private Booking booking;
-
+    private LocalDateTime paymentDate;
 }

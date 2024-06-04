@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @Entity
@@ -13,8 +15,11 @@ public class Booking {
     private Long id;
     private Long careGiverId;
     private Long userId;
-    private Long serviceOfferedId;
     private String starTime;
     private String endTime;
+    private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
+
+
 }

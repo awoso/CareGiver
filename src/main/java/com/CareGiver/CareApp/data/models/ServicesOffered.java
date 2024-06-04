@@ -16,6 +16,7 @@ public class ServicesOffered {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long careGiverId;
     private String name;
     private String description;
     private BigDecimal price;
