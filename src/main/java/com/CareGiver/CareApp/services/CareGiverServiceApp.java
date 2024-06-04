@@ -1,20 +1,20 @@
 package com.CareGiver.CareApp.services;
 
+import com.CareGiver.CareApp.data.models.Booking;
 import com.CareGiver.CareApp.data.models.CareGiver;
 import com.CareGiver.CareApp.data.repositories.CareGiverRepository;
-import com.CareGiver.CareApp.dtos.requests.CareGiverLoginRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverLogoutRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverRegistrationRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverUpdateProfileRequest;
+import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.ViewCareGiverBookingsResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +27,6 @@ public class CareGiverServiceApp implements  CareGiverService {
     public CareGiverRegistrationResponse registerCareGiver(CareGiverRegistrationRequest request) throws CareAppException {
         boolean isRegistered = careGiverRepository.findByEmail(request.getEmail()) != null;
         if (isRegistered) throw new CareAppException("Email already taken");
-
         CareGiver careGiver = new CareGiver();
         careGiver.setEmail(request.getEmail());
         careGiver.setUserName(request.getUserName());
@@ -83,6 +82,27 @@ public class CareGiverServiceApp implements  CareGiverService {
         if (existingCareGiver == null) throw new CareAppException("Caregiver not found");
         existingCareGiver.setLogin(false);
         careGiverRepository.save(existingCareGiver);
+    }
+
+    @Override
+    public CareGiver findById(Long careGiverId) {
+        return careGiverRepository.findById(careGiverId).orElse(null);
+    }
+
+    @Override
+    public void save(CareGiver existingCareGiver) {
+        careGiverRepository.save(existingCareGiver);
+    }
+
+    @Override
+    public ViewCareGiverBookingsResponse getAllBooking(ViewCareGiverBookingsRequest request) throws CareAppException {
+        CareGiver existingCareGiver = careGiverRepository.findById(request.getCareGiverId()).orElse(null);
+        if (existingCareGiver == null) throw new CareAppException("Care giver not found");
+
+        List<Booking> existingCareGiverBookings = existingCareGiver.getBookings();
+        ViewCareGiverBookingsResponse response = new ViewCareGiverBookingsResponse();
+        response.setCareGiverBookings(existingCareGiverBookings);
+        return response;
     }
 
     @Override

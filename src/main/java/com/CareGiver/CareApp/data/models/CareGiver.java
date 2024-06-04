@@ -19,7 +19,10 @@ public class CareGiver {
     private String password;
     private String servicesOffered;
     private String qualification;
-    private int yearsOfExperience;
+    private String yearsOfExperience;
+    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private Location location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isLogin;
