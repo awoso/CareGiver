@@ -61,4 +61,9 @@ public class BookingServiceApp implements BookingService{
     public Booking findById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElse(null);
     }
+
+    @Override
+    public UserBookingResponse userBooking(UserBookingRequest request) {
+        return null;
+    }
 }

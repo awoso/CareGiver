@@ -7,6 +7,5 @@ import lombok.Setter;
 @Getter
 public class PaymentResponse {
     private Long paymentId;
-    private String paymentStatus;
     private String message;
 }
