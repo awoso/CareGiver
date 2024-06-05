@@ -21,6 +21,7 @@ public class UserServiceApp implements UserService{
 
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
+    private final NotificationSenderService notificationSenderService;
 
     @Override
     public UserRegistrationResponse registerUser(UserRegistrationRequest request) throws CareAppException {
@@ -34,6 +35,11 @@ public class UserServiceApp implements UserService{
         user.setName(request.getName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setCreatedAt(LocalDateTime.now());
+
+        WelcomeMessageWelcomeRequest welcomeRequest = new WelcomeMessageWelcomeRequest();
+        welcomeRequest.setName(request.getName());
+        welcomeRequest.setEmail(request.getEmail());
+        notificationSenderService.notifyWelcomeMessage(welcomeRequest);
 
         userRepository.save(user);
 

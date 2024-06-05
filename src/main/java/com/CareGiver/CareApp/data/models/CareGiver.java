@@ -3,6 +3,7 @@ package com.CareGiver.CareApp.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@ToString
 public class CareGiver {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +26,8 @@ public class CareGiver {
     private LocalDateTime updatedAt;
     private boolean isLogin;
     private boolean isAvailable;
+    @Enumerated(EnumType.STRING)
+    private Location location;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Booking> bookings ;
 

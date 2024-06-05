@@ -1,6 +1,7 @@
 package com.CareGiver.CareApp.services;
 
 import com.CareGiver.CareApp.data.models.CareGiver;
+import com.CareGiver.CareApp.data.models.Location;
 import com.CareGiver.CareApp.data.repositories.CareGiverRepository;
 import com.CareGiver.CareApp.dtos.requests.CareGiverLoginRequest;
 import com.CareGiver.CareApp.dtos.requests.CareGiverLogoutRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,10 +40,13 @@ public class CareGiverServiceApp implements  CareGiverService {
         careGiver.setAvailable(true);
         careGiver.setCreatedAt(LocalDateTime.now());
         careGiver.setLogin(false);
+        careGiver.setLocation(Location.valueOf(request.getLocation()));
         careGiverRepository.save(careGiver);
+
         CareGiverRegistrationResponse response = new CareGiverRegistrationResponse();
         response.setId(careGiver.getCareGiverId());
         response.setMessage("Successfully registered");
+
         return response;
     }
 
@@ -84,6 +89,17 @@ public class CareGiverServiceApp implements  CareGiverService {
         existingCareGiver.setLogin(false);
         careGiverRepository.save(existingCareGiver);
     }
+
+    @Override
+    public List<CareGiver> findCareGiverByLocation(Location location) throws CareAppException {
+        List<CareGiver> careGiver = careGiverRepository.findCareGiversByLocation(Location.valueOf(String.valueOf(location)));
+
+        if (careGiver == null){
+            throw new CareAppException("Caregiver not found");
+        }
+        return careGiver;
+    }
+
 
     @Override
     public CareGiverResponse logout(CareGiverLogoutRequest request) throws CareAppException {
