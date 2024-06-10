@@ -1,6 +1,5 @@
 package com.CareGiver.CareApp.services;
 
-import com.CareGiver.CareApp.data.models.Admin;
 import com.CareGiver.CareApp.data.models.Booking;
 import com.CareGiver.CareApp.data.models.User;
 import com.CareGiver.CareApp.data.repositories.BookingRepository;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -124,6 +124,9 @@ public class UserServiceApp implements UserService{
     public User findUserById(Long userId) {
         return userRepository.findUserById(userId);
     }
+    public Optional<User> findById(Long userId) {
+       return userRepository.findById(userId);
+    }
 
     @Override
     public void save(User existingUser) {
@@ -131,5 +134,17 @@ public class UserServiceApp implements UserService{
 
     }
 
+
+
+    @Override
+    public ViewAllUserBookingResponse getAllBookings(ViewAllUserBookingRequest request) throws CareAppException {
+        User existingUser = userRepository.findById(request.getUserId()).orElse(null);
+        if (existingUser == null) throw new CareAppException("User not found");
+        List<Booking> existingUserBookings = existingUser.getBookings();
+        ViewAllUserBookingResponse response = new ViewAllUserBookingResponse();
+        response.setUserBookings(existingUserBookings);
+        return response;
+
+    }
 
 }

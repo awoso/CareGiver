@@ -7,6 +7,7 @@ import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
 import com.CareGiver.CareApp.dtos.responses.UploadImageResponse;
+import com.CareGiver.CareApp.dtos.responses.ViewCareGiverBookingsResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 
 import java.io.IOException;
@@ -30,4 +31,9 @@ public interface CareGiverService {
     List<CareGiver> findCareGiverByLocation(Location location) throws CareAppException;
 
     UploadImageResponse upoadProfilePicture(CareGiverUploadProfilePictureRequest request) throws CareAppException, IOException;
+    CareGiver findById(Long careGiverId);
+
+    void save(CareGiver existingCareGiver);
+
+    ViewCareGiverBookingsResponse getAllBooking(ViewCareGiverBookingsRequest request) throws CareAppException;
 }

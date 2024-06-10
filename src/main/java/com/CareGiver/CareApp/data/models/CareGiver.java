@@ -21,13 +21,14 @@ public class CareGiver {
     private String password;
     private String servicesOffered;
     private String qualification;
-    private int yearsOfExperience;
+    private String yearsOfExperience;
+    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private Location location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isLogin;
     private boolean isAvailable;
-    @Enumerated(EnumType.STRING)
-    private Location location;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Booking> bookings ;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)

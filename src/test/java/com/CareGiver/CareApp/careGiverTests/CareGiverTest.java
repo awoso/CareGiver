@@ -40,13 +40,14 @@ public class CareGiverTest {
     @Test
     public void testThatCareGiverCanRegister() throws CareAppException {
         CareGiverRegistrationRequest request = new CareGiverRegistrationRequest();
-        request.setEmail("awosoogaga@gmail.com");
+        request.setEmail("awosoogaga1@gmail.com");
         request.setPassword("awoso3456");
         request.setUserName("awosoo");
-        request.setQualification("Bsc");
-        request.setYearsOfExperience(2);
+        request.setQualification("BNSc");
+        request.setYearsOfExperience("3 years");
         request.setServicesOffered("babycare");
         request.setLocation(String.valueOf(Location.IBEJULEKKI));
+        request.setPhoneNumber("08068952954");
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
 
         assertThat(response).isNotNull();
@@ -60,7 +61,7 @@ public class CareGiverTest {
         request.setPassword("awoso3456");
         request.setUserName("awosoo");
         request.setQualification("Bsc");
-        request.setYearsOfExperience(2);
+        request.setYearsOfExperience("2");
         request.setServicesOffered("babycare");
         request.setLocation(String.valueOf(Location.IBEJULEKKI));
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
@@ -84,7 +85,7 @@ public class CareGiverTest {
         request.setPassword("awoso3456");
         request.setUserName("awosoo");
         request.setQualification("Bsc");
-        request.setYearsOfExperience(2);
+        request.setYearsOfExperience("2 years");
         request.setServicesOffered("babycare");
         assertThrows(CareAppException.class, () -> careGiverService.registerCareGiver(request));
     }
@@ -97,8 +98,9 @@ public class CareGiverTest {
         request.setPassword("david001");
         request.setUserName("DavidFlex");
         request.setQualification("phD");
-        request.setYearsOfExperience(3);
+        request.setYearsOfExperience("6 years");
         request.setServicesOffered("Elderly Care");
+
 
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
         assertThat(response).isNotNull();
@@ -121,7 +123,7 @@ public class CareGiverTest {
         request.setPassword("david001");
         request.setUserName("DavidFlex");
         request.setQualification("Bsc");
-        request.setYearsOfExperience(3);
+        request.setYearsOfExperience("4 years");
         request.setServicesOffered("babycare");
 
         CareGiverUpdateProfileResponse response = careGiverService.updateCareGiver(request);
@@ -147,7 +149,7 @@ public class CareGiverTest {
         request.setPassword("awoso3456");
         request.setUserName("awosoo");
         request.setQualification("Bsc");
-        request.setYearsOfExperience(2);
+        request.setYearsOfExperience("1 year");
         request.setServicesOffered("babycare");
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
         assertThat(response).isNotNull();
@@ -180,6 +182,15 @@ public class CareGiverTest {
         request.setUploadImageRequest(imageRequest);
 
         UploadImageResponse response = careGiverService.upoadProfilePicture(request);
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void testThatCareGiverListOfBookingCanBeFound() throws CareAppException {
+        ViewCareGiverBookingsRequest request = new ViewCareGiverBookingsRequest();
+        request.setCareGiverId(1L);
+        ViewCareGiverBookingsResponse response = careGiverService.getAllBooking(request);
+        System.out.println(response.getCareGiverBookings().size());
         assertThat(response).isNotNull();
     }
 

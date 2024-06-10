@@ -5,6 +5,8 @@ import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.*;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 
+import java.util.Optional;
+
 public interface UserService {
     UserRegistrationResponse registerUser(UserRegistrationRequest request) throws CareAppException;
 
@@ -18,5 +20,9 @@ public interface UserService {
 
     User findUserById(Long userId);
 
+    Optional<User> findById(Long userId);
+
     void save(User existingUser);
+
+    ViewAllUserBookingResponse getAllBookings(ViewAllUserBookingRequest request) throws CareAppException;
 }

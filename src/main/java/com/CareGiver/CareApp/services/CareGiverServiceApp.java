@@ -1,5 +1,6 @@
 package com.CareGiver.CareApp.services;
 
+import com.CareGiver.CareApp.data.models.Booking;
 import com.CareGiver.CareApp.data.models.CareGiver;
 import com.CareGiver.CareApp.data.models.Image;
 import com.CareGiver.CareApp.data.models.Location;
@@ -9,6 +10,7 @@ import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
 import com.CareGiver.CareApp.dtos.responses.UploadImageResponse;
+import com.CareGiver.CareApp.dtos.responses.ViewCareGiverBookingsResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,6 @@ public class CareGiverServiceApp implements  CareGiverService {
     public CareGiverRegistrationResponse registerCareGiver(CareGiverRegistrationRequest request) throws CareAppException {
         boolean isRegistered = careGiverRepository.findByEmail(request.getEmail()) != null;
         if (isRegistered) throw new CareAppException("Email already taken");
-
         CareGiver careGiver = new CareGiver();
         careGiver.setEmail(request.getEmail());
         careGiver.setUserName(request.getUserName());
@@ -121,6 +122,25 @@ public class CareGiverServiceApp implements  CareGiverService {
 
     }
 
+    public CareGiver findById(Long careGiverId) {
+        return careGiverRepository.findById(careGiverId).orElse(null);
+    }
+
+    @Override
+    public void save(CareGiver existingCareGiver) {
+        careGiverRepository.save(existingCareGiver);
+    }
+
+    @Override
+    public ViewCareGiverBookingsResponse getAllBooking(ViewCareGiverBookingsRequest request) throws CareAppException {
+        CareGiver existingCareGiver = careGiverRepository.findById(request.getCareGiverId()).orElse(null);
+        if (existingCareGiver == null) throw new CareAppException("Care giver not found");
+
+        List<Booking> existingCareGiverBookings = existingCareGiver.getBookings();
+        ViewCareGiverBookingsResponse response = new ViewCareGiverBookingsResponse();
+        response.setCareGiverBookings(existingCareGiverBookings);
+        return response;
+    }
 
     @Override
     public CareGiverResponse logout(CareGiverLogoutRequest request) throws CareAppException {

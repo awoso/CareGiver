@@ -3,7 +3,6 @@ package com.CareGiver.CareApp.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +19,7 @@ public class Booking {
     private String endTime;
     private LocalDateTime createdAt;
     @Enumerated(EnumType.STRING)
-    private BookingStatus status= BookingStatus.PENDING;
+    private BookingStatus status;
 
 
 }

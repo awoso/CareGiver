@@ -1,43 +1,60 @@
-//package com.CareGiver.CareApp.bookingTests;
-//
-//
-//import com.CareGiver.CareApp.data.models.Booking;
-//import com.CareGiver.CareApp.data.models.BookingStatus;
-//import com.CareGiver.CareApp.data.repositories.BookingRepository;
-//import com.CareGiver.CareApp.services.BookingService;
-//import com.CareGiver.CareApp.services.CareGiverService;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import java.time.LocalDateTime;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.verify;
-//import static org.mockito.Mockito.when;
-//
-//@SpringBootTest
-//public class BookingTest {
-//    @Autowired
-//    private BookingService bookingService;
-//    @Autowired
-//    private BookingRepository bookingRepository;
-//
-//    @Test
-//    public void testThatUserCanCreateBooking() throws Exception {
-//        Booking booking = new Booking();
-//        booking.setUserId(2L);
-//        booking.setCareGiverId(2L);
-//        booking.setStatus(bookingstatus.PENDING);
-//        booking.getServiceOfferedId();
-//        booking.setStarTime("LocalDateTime");
-//        booking.setEndTime("LocalDateTime");
-//        when(bookingRepository.save(booking)).thenReturn(booking);
-//        Booking createdBooking = bookingService.createBooking(booking);
-//        assertEquals(usercreatedBooking.getUser());
-//        assertEquals(BookingStatus.PENDING, createdBooking.getBookingStatus());
-//        verify(bookingRepository).save(booking);
-//    }
-//
-//
-//}
+package com.CareGiver.CareApp.bookingTests;
+
+
+
+import com.CareGiver.CareApp.dtos.requests.UserBookingRequest;
+import com.CareGiver.CareApp.dtos.responses.UserBookingResponse;
+import com.CareGiver.CareApp.exceptions.CareAppException;
+import com.CareGiver.CareApp.services.BookingService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+@SpringBootTest
+public class BookingTest {
+    @Autowired
+    private BookingService bookingService;
+
+
+    @Test
+    public void testThatAUserCanBookASpecificCareGiver() throws CareAppException, Exception {
+        UserBookingRequest request = new UserBookingRequest();
+        request.setUserId(1L);
+        request.setCareGiverId(1L);
+        request.setStarTime("30/05/2024");
+        request.setEndTime("12/06/2024");
+
+        UserBookingResponse response = bookingService.bookService(request);
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void testThatAttemptToBookAnUnregisteredUserThrowsException(){
+        UserBookingRequest request = new UserBookingRequest();
+        request.setUserId(2L);
+        request.setCareGiverId(1L);
+        request.setStarTime("30/05/2024");
+        request.setEndTime("12/06/2024");
+
+        assertThrows(CareAppException.class, () -> bookingService.bookService(request));
+    }
+
+
+    @Test
+    public void testThatAttemptBookAnUnregisterCareGiverThrowsException(){
+        UserBookingRequest request = new UserBookingRequest();
+        request.setUserId(1L);
+        request.setCareGiverId(2L);
+        request.setStarTime("30/05/2024");
+        request.setEndTime("12/06/2024");
+
+        assertThrows(CareAppException.class, () -> bookingService.bookService(request));
+    }
+
+}

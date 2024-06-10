@@ -14,7 +14,7 @@ public class CareGiverUpdateProfileRequest {
     private String password;
     private String servicesOffered;
     private String qualification;
-    private int yearsOfExperience;
+    private String yearsOfExperience;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
