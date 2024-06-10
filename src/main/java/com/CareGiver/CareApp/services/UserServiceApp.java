@@ -21,6 +21,7 @@ public class UserServiceApp implements UserService{
 
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
+    private final NotificationSenderService notificationSenderService;
 
     @Override
     public UserRegistrationResponse registerUser(UserRegistrationRequest request) throws CareAppException {
@@ -34,6 +35,11 @@ public class UserServiceApp implements UserService{
         user.setName(request.getName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setCreatedAt(LocalDateTime.now());
+
+//        WelcomeMessageWelcomeRequest welcomeRequest = new WelcomeMessageWelcomeRequest();
+//        welcomeRequest.setName(request.getName());
+//        welcomeRequest.setEmail(request.getEmail());
+//        notificationSenderService.notifyWelcomeMessage(welcomeRequest);
 
         userRepository.save(user);
 
@@ -115,6 +121,9 @@ public class UserServiceApp implements UserService{
     }
 
     @Override
+    public User findUserById(Long userId) {
+        return userRepository.findUserById(userId);
+    }
     public Optional<User> findById(Long userId) {
        return userRepository.findById(userId);
     }
@@ -122,7 +131,10 @@ public class UserServiceApp implements UserService{
     @Override
     public void save(User existingUser) {
         userRepository.save(existingUser);
+
     }
+
+
 
     @Override
     public ViewAllUserBookingResponse getAllBookings(ViewAllUserBookingRequest request) throws CareAppException {

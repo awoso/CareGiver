@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+<<<<<<< HEAD
+secret.properties
+=======
 
 secrets.properties
+>>>>>>> b1649e4cc9f698f1dc963382fc24a872a13bc56f

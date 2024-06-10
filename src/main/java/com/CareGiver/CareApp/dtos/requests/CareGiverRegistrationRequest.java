@@ -11,6 +11,7 @@ public class CareGiverRegistrationRequest {
     private String password;
     private String servicesOffered;
     private String qualification;
+    private String location;
     private String yearsOfExperience;
     private String phoneNumber;
 }

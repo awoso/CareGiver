@@ -4,20 +4,32 @@ package com.CareGiver.CareApp.careGiverTests;
 
 
 import com.CareGiver.CareApp.data.models.CareGiver;
+import com.CareGiver.CareApp.data.models.Location;
 import com.CareGiver.CareApp.data.repositories.CareGiverRepository;
 import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.*;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import com.CareGiver.CareApp.services.CareGiverService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
+@Slf4j
+
 public class CareGiverTest {
     @Autowired
     private CareGiverService careGiverService;
@@ -34,12 +46,37 @@ public class CareGiverTest {
         request.setQualification("BNSc");
         request.setYearsOfExperience("3 years");
         request.setServicesOffered("babycare");
+        request.setLocation(String.valueOf(Location.IBEJULEKKI));
         request.setPhoneNumber("08068952954");
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
 
         assertThat(response).isNotNull();
 
     }
+
+    @Test
+    public void testThatCareGiverCanRegister2() throws CareAppException {
+        CareGiverRegistrationRequest request = new CareGiverRegistrationRequest();
+        request.setEmail("picasso@gmail.com");
+        request.setPassword("awoso3456");
+        request.setUserName("awosoo");
+        request.setQualification("Bsc");
+        request.setYearsOfExperience("2");
+        request.setServicesOffered("babycare");
+        request.setLocation(String.valueOf(Location.IBEJULEKKI));
+        CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
+
+        assertThat(response).isNotNull();
+
+    }
+
+    @Test
+    void findUserByLocationTest() throws CareAppException {
+        List<CareGiver> giver = careGiverService.findCareGiverByLocation(Location.IBEJULEKKI);
+        assertThat(giver).isNotNull();
+        log.info("{}->", giver);
+    }
+
 
     @Test
     public void testThatIfCareGiverAttemptsToRegisterWithAnAlreadyTakenEmailExceptionIsThrown() {
@@ -131,6 +168,22 @@ public class CareGiverTest {
 
     }
 
+    @Test
+    public void testThatCareGiverCanUploadProfilePicture() throws IOException, CareAppException {
+        CareGiverUploadProfilePictureRequest request = new CareGiverUploadProfilePictureRequest();
+        request.setCareGiverId(1L);
+
+        UploadImageRequest imageRequest = new UploadImageRequest();
+
+        File file = new File("C:\\Users\\User\\Pictures\\1.jpg");
+        FileInputStream inputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", inputStream);
+        imageRequest.setImage(multipartFile);
+        request.setUploadImageRequest(imageRequest);
+
+        UploadImageResponse response = careGiverService.upoadProfilePicture(request);
+        assertThat(response).isNotNull();
+    }
 
     @Test
     public void testThatCareGiverListOfBookingCanBeFound() throws CareAppException {

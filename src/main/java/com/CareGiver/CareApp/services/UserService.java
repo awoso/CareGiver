@@ -18,6 +18,8 @@ public interface UserService {
 
     UserBookingResponse bookCareGiver(UserBookingRequest request) throws CareAppException;
 
+    User findUserById(Long userId);
+
     Optional<User> findById(Long userId);
 
     void save(User existingUser);

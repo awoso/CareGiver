@@ -2,17 +2,21 @@ package com.CareGiver.CareApp.services;
 
 import com.CareGiver.CareApp.data.models.Booking;
 import com.CareGiver.CareApp.data.models.CareGiver;
+import com.CareGiver.CareApp.data.models.Image;
+import com.CareGiver.CareApp.data.models.Location;
 import com.CareGiver.CareApp.data.repositories.CareGiverRepository;
 import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.UploadImageResponse;
 import com.CareGiver.CareApp.dtos.responses.ViewCareGiverBookingsResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +26,9 @@ import java.util.List;
 public class CareGiverServiceApp implements  CareGiverService {
 
     private final CareGiverRepository careGiverRepository;
+    private final CloudinaryImageService cloudinaryImageService;
+    private final ImageService imageService;
+
 
     @Override
     public CareGiverRegistrationResponse registerCareGiver(CareGiverRegistrationRequest request) throws CareAppException {
@@ -37,10 +44,13 @@ public class CareGiverServiceApp implements  CareGiverService {
         careGiver.setAvailable(true);
         careGiver.setCreatedAt(LocalDateTime.now());
         careGiver.setLogin(false);
+        careGiver.setLocation(Location.valueOf(request.getLocation()));
         careGiverRepository.save(careGiver);
+
         CareGiverRegistrationResponse response = new CareGiverRegistrationResponse();
         response.setId(careGiver.getCareGiverId());
         response.setMessage("Successfully registered");
+
         return response;
     }
 
@@ -85,6 +95,33 @@ public class CareGiverServiceApp implements  CareGiverService {
     }
 
     @Override
+    public List<CareGiver> findCareGiverByLocation(Location location) throws CareAppException {
+        List<CareGiver> careGiver = careGiverRepository.findCareGiversByLocation(Location.valueOf(String.valueOf(location)));
+
+        if (careGiver == null){
+            throw new CareAppException("Caregiver not found");
+        }
+        return careGiver;
+    }
+
+    @Override
+    public UploadImageResponse upoadProfilePicture(CareGiverUploadProfilePictureRequest request) throws CareAppException, IOException {
+        CareGiver existingCareGiver = careGiverRepository.findById(request.getCareGiverId()).orElse(null);
+        if (existingCareGiver == null) throw new CareAppException("Caregiver not found");
+        UploadImageResponse response = cloudinaryImageService.uploadImage(request.getUploadImageRequest());
+
+
+        Image image = imageService.saveImage(response);
+        existingCareGiver.setImage(image);
+        careGiverRepository.save(existingCareGiver);
+        response.setUrl(response.getUrl());
+        return response;
+
+
+
+
+    }
+
     public CareGiver findById(Long careGiverId) {
         return careGiverRepository.findById(careGiverId).orElse(null);
     }

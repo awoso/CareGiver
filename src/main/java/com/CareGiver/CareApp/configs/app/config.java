@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-public class config {
-    public class AppConfig implements WebMvcConfigurer {
+public class config implements WebMvcConfigurer {
+    public static class AppConfig implements WebMvcConfigurer {
 
         @Bean
         public WebMvcConfigurer corsConfigurer() {
