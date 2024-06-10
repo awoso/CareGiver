@@ -28,7 +28,7 @@ public class CareGiverTest {
     @Test
     public void testThatCareGiverCanRegister() throws CareAppException {
         CareGiverRegistrationRequest request = new CareGiverRegistrationRequest();
-        request.setEmail("awosoogaga@gmail.com");
+        request.setEmail("awosoogaga1@gmail.com");
         request.setPassword("awoso3456");
         request.setUserName("awosoo");
         request.setQualification("BNSc");

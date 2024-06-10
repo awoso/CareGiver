@@ -1,19 +1,16 @@
 package com.CareGiver.CareApp.bookingTests;
 
 
-import com.CareGiver.CareApp.data.models.Booking;
-import com.CareGiver.CareApp.data.models.BookingStatus;
-import com.CareGiver.CareApp.data.repositories.BookingRepository;
+
 import com.CareGiver.CareApp.dtos.requests.UserBookingRequest;
 import com.CareGiver.CareApp.dtos.responses.UserBookingResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import com.CareGiver.CareApp.services.BookingService;
-import com.CareGiver.CareApp.services.CareGiverService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

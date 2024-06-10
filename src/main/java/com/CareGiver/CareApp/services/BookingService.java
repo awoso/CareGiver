@@ -11,4 +11,7 @@ public interface BookingService {
     UserBookingResponse bookService(UserBookingRequest request) throws Exception, CareAppException;
 
     Booking findById(Long bookingId);
+
+    UserBookingResponse userBooking(UserBookingRequest request);
+
 }
