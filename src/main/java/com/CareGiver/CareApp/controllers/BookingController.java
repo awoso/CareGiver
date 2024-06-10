@@ -1,14 +1,9 @@
 package com.CareGiver.CareApp.controllers;
-
-import com.CareGiver.CareApp.dtos.requests.AdminRegistrationRequest;
 import com.CareGiver.CareApp.dtos.requests.UserBookingRequest;
-import com.CareGiver.CareApp.dtos.responses.AdminRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.UserBookingResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
-import com.CareGiver.CareApp.services.AdminService;
 import com.CareGiver.CareApp.services.BookingService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +23,3 @@ public class BookingController {
      return new ResponseEntity<>(bookingService.bookService(request), HttpStatus.CREATED);
     }
 }
-
-
