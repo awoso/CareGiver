@@ -6,8 +6,10 @@ import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.UploadImageResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,4 +28,6 @@ public interface CareGiverService {
     void logoutCareGiver(CareGiverLogoutRequest request) throws CareAppException;
 
     List<CareGiver> findCareGiverByLocation(Location location) throws CareAppException;
+
+    UploadImageResponse upoadProfilePicture(CareGiverUploadProfilePictureRequest request) throws CareAppException, IOException;
 }

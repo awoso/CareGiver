@@ -30,5 +30,9 @@ public class CareGiver {
     private Location location;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Booking> bookings ;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    private List<Review> reviews;
+    @OneToOne(fetch = FetchType.EAGER, cascade =CascadeType.DETACH)
+    private Image image;
 
 }

@@ -14,7 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -160,5 +166,21 @@ public class CareGiverTest {
 
     }
 
+    @Test
+    public void testThatCareGiverCanUploadProfilePicture() throws IOException, CareAppException {
+        CareGiverUploadProfilePictureRequest request = new CareGiverUploadProfilePictureRequest();
+        request.setCareGiverId(1L);
+
+        UploadImageRequest imageRequest = new UploadImageRequest();
+
+        File file = new File("C:\\Users\\User\\Pictures\\1.jpg");
+        FileInputStream inputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", inputStream);
+        imageRequest.setImage(multipartFile);
+        request.setUploadImageRequest(imageRequest);
+
+        UploadImageResponse response = careGiverService.upoadProfilePicture(request);
+        assertThat(response).isNotNull();
+    }
 
 }

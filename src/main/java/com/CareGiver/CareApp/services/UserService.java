@@ -1,5 +1,6 @@
 package com.CareGiver.CareApp.services;
 
+import com.CareGiver.CareApp.data.models.User;
 import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.*;
 import com.CareGiver.CareApp.exceptions.CareAppException;
@@ -14,4 +15,8 @@ public interface UserService {
     UserLogoutResponse logout(UserLogoutRequest request) throws CareAppException;
 
     UserBookingResponse bookCareGiver(UserBookingRequest request) throws CareAppException;
+
+    User findUserById(Long userId);
+
+    void save(User existingUser);
 }

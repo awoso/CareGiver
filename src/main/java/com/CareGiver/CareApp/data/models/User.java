@@ -26,5 +26,7 @@ public class User {
     private List<Booking> bookings;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Payment> payments;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
+    private List<Review> reviews;
 
 }

@@ -1,20 +1,20 @@
 package com.CareGiver.CareApp.services;
 
 import com.CareGiver.CareApp.data.models.CareGiver;
+import com.CareGiver.CareApp.data.models.Image;
 import com.CareGiver.CareApp.data.models.Location;
 import com.CareGiver.CareApp.data.repositories.CareGiverRepository;
-import com.CareGiver.CareApp.dtos.requests.CareGiverLoginRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverLogoutRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverRegistrationRequest;
-import com.CareGiver.CareApp.dtos.requests.CareGiverUpdateProfileRequest;
+import com.CareGiver.CareApp.dtos.requests.*;
 import com.CareGiver.CareApp.dtos.responses.CareGiverRegistrationResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverResponse;
 import com.CareGiver.CareApp.dtos.responses.CareGiverUpdateProfileResponse;
+import com.CareGiver.CareApp.dtos.responses.UploadImageResponse;
 import com.CareGiver.CareApp.exceptions.CareAppException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +24,9 @@ import java.util.List;
 public class CareGiverServiceApp implements  CareGiverService {
 
     private final CareGiverRepository careGiverRepository;
+    private final CloudinaryImageService cloudinaryImageService;
+    private final ImageService imageService;
+
 
     @Override
     public CareGiverRegistrationResponse registerCareGiver(CareGiverRegistrationRequest request) throws CareAppException {
@@ -98,6 +101,24 @@ public class CareGiverServiceApp implements  CareGiverService {
             throw new CareAppException("Caregiver not found");
         }
         return careGiver;
+    }
+
+    @Override
+    public UploadImageResponse upoadProfilePicture(CareGiverUploadProfilePictureRequest request) throws CareAppException, IOException {
+        CareGiver existingCareGiver = careGiverRepository.findById(request.getCareGiverId()).orElse(null);
+        if (existingCareGiver == null) throw new CareAppException("Caregiver not found");
+        UploadImageResponse response = cloudinaryImageService.uploadImage(request.getUploadImageRequest());
+
+
+        Image image = imageService.saveImage(response);
+        existingCareGiver.setImage(image);
+        careGiverRepository.save(existingCareGiver);
+        response.setUrl(response.getUrl());
+        return response;
+
+
+
+
     }
 
 

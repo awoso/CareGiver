@@ -36,10 +36,10 @@ public class UserServiceApp implements UserService{
         user.setPhoneNumber(request.getPhoneNumber());
         user.setCreatedAt(LocalDateTime.now());
 
-        WelcomeMessageWelcomeRequest welcomeRequest = new WelcomeMessageWelcomeRequest();
-        welcomeRequest.setName(request.getName());
-        welcomeRequest.setEmail(request.getEmail());
-        notificationSenderService.notifyWelcomeMessage(welcomeRequest);
+//        WelcomeMessageWelcomeRequest welcomeRequest = new WelcomeMessageWelcomeRequest();
+//        welcomeRequest.setName(request.getName());
+//        welcomeRequest.setEmail(request.getEmail());
+//        notificationSenderService.notifyWelcomeMessage(welcomeRequest);
 
         userRepository.save(user);
 
@@ -119,4 +119,17 @@ public class UserServiceApp implements UserService{
         response.setBookingId(booking.getId());
         return response;
     }
+
+    @Override
+    public User findUserById(Long userId) {
+        return userRepository.findUserById(userId);
+    }
+
+    @Override
+    public void save(User existingUser) {
+        userRepository.save(existingUser);
+
+    }
+
+
 }
