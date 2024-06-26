@@ -12,6 +12,5 @@ public interface BookingService {
 
     Booking findById(Long bookingId);
 
-    UserBookingResponse userBooking(UserBookingRequest request);
 
 }

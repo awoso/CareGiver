@@ -39,6 +39,7 @@ public class CareGiverTest {
 
     @Test
     public void testThatCareGiverCanRegister() throws CareAppException {
+
         CareGiverRegistrationRequest request = new CareGiverRegistrationRequest();
         request.setEmail("awosoogaga1@gmail.com");
         request.setPassword("awoso3456");
@@ -48,6 +49,7 @@ public class CareGiverTest {
         request.setServicesOffered("babycare");
         request.setLocation(String.valueOf(Location.IBEJULEKKI));
         request.setPhoneNumber("08068952954");
+
         CareGiverRegistrationResponse response = careGiverService.registerCareGiver(request);
 
         assertThat(response).isNotNull();
@@ -111,7 +113,10 @@ public class CareGiverTest {
         CareGiverLoginRequest request = new CareGiverLoginRequest();
         request.setEmail("davidFelix1@gmail.com");
         request.setPassword("david001");
+
+
         CareGiverResponse response = careGiverService.login(request);
+
         assertThat(response).isNotNull();
 
     }

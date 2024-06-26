@@ -26,16 +26,15 @@ public class AdminController {
         return ResponseEntity.status((HttpStatus.CREATED)).body(adminService.registerAdmin(request));
     }
 
-    @GetMapping("login")
+    @PostMapping("login")
     public ResponseEntity<AdminLoginResponse> login(@RequestBody AdminLoginRequest request) throws CareAppException {
 
         return ResponseEntity.status((HttpStatus.OK)).body(adminService.login(request));
     }
 //    @PostMapping("logout")
-//    public ResponseEntity<AdminLogoutResponse> logout(@RequestBody AdminLogOutRequest request) throws CareAppException {
-//        AdminLogoutResponse response = new AdminLogoutResponse();
-//        return (adminS
+//    public ResponseEntity<AdminLogOutResponse> logout(@RequestBody AdminLogOutRequest request) throws CareAppException {
 //
+//        return ResponseEntity.status((HttpStatus.OK)).body(adminService.logout(request));
 //    }
 
 

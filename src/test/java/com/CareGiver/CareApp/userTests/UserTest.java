@@ -36,9 +36,9 @@ public class UserTest {
         UserLoginRequest request = new UserLoginRequest();
         request.setEmail("tolu@gmail.com");
         request.setPassword("123456");
+
         UserLoginResponse response = userService.login(request);
         assertThat(response).isNotNull();
-
 
     }
 
@@ -62,7 +62,6 @@ public class UserTest {
         request.setAddress("Alabama");
 
         UserUpdateProfileResponse response = userService.updateProfile(request);
-
         assertThat(response).isNotNull();
     }
 
@@ -79,3 +78,8 @@ public class UserTest {
 
 
 }
+
+
+
+
+

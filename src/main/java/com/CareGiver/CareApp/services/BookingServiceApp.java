@@ -30,6 +30,7 @@ public class BookingServiceApp implements BookingService{
         CareGiver existingCareGiver = careGiverService.findById(request.getCareGiverId());
         if (existingCareGiver==null) throw new CareAppException("CareGiver not found");
 
+        if (existingUser.isLogin())throw new CareAppException("Kindly login to make booking");
         Booking booking = new Booking();
         booking.setUserId(existingUser.getId());
         booking.setCareGiverId(existingCareGiver.getCareGiverId());
@@ -62,8 +63,4 @@ public class BookingServiceApp implements BookingService{
         return bookingRepository.findById(bookingId).orElse(null);
     }
 
-    @Override
-    public UserBookingResponse userBooking(UserBookingRequest request) {
-        return null;
-    }
 }
